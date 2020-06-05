@@ -1,6 +1,8 @@
 package com.example.spectrumglobalassignment.Model
 
-data class Name(
+import java.io.Serializable
+
+data class Name (
     val first: String,
     val last: String
-)
+):Serializable

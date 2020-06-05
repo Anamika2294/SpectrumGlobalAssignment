@@ -1,17 +1,18 @@
-package com.example.spectrumglobalassignment
+package com.example.spectrumglobalassignment.Adapters
 
 import android.content.Context
-import android.graphics.Color
-import android.provider.ContactsContract
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.spectrumglobalassignment.MembersActivity
 import com.example.spectrumglobalassignment.Model.RespnseDataItem
+import com.example.spectrumglobalassignment.R
 import com.squareup.picasso.Picasso
+import java.io.Serializable
 
 class DataAdapter(private var dataList: List<RespnseDataItem>, private val context: Context) : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
@@ -38,6 +39,15 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
         holder.company_website.text=dataModel.website;
         holder.company_description.text=dataModel.about;
 
+        holder?.itemView?.setOnClickListener {
+            val intent = Intent(holder.itemView.context, MembersActivity::class.java)
+
+            intent.putExtra("MEMBER_LIST", dataModel.members as Serializable)
+            context.startActivity(intent)
+
+        }
+
+
     }
 
 
@@ -57,9 +67,7 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
 
 
 
-//            itemLayoutView.setOnClickListener {
-//                onItemClick?.invoke(dataList[adapterPosition])
-//            }
+
 
         }
 

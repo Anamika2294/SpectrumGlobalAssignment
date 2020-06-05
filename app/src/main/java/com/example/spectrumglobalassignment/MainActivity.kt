@@ -1,6 +1,5 @@
 package com.example.spectrumglobalassignment
 
-import android.app.admin.DevicePolicyManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,13 +16,22 @@ import android.view.Menu
 import androidx.appcompat.widget.SearchView
 
 import androidx.appcompat.widget.Toolbar
+import android.app.Dialog
+import android.widget.RadioButton
+import android.view.View
+import android.widget.Button
+import android.widget.RadioGroup
+import com.example.spectrumglobalassignment.Adapters.DataAdapter
+import kotlin.collections.ArrayList
 
 
-class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.OnClickListener {
+
 
 
     var dataList : MutableList<RespnseDataItem> = ArrayList()
     lateinit var recyclerView: RecyclerView
+    lateinit var btnSort: Button
     lateinit var adapter: DataAdapter
     lateinit var toolbar: Toolbar
 
@@ -33,8 +41,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         setContentView(R.layout.activity_main)
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        btnSort = findViewById(R.id.btn_sort)
+        btnSort.setOnClickListener(this)
         recyclerView = findViewById(R.id.recycler_view)
-        recyclerView.adapter= DataAdapter(dataList,this)
+        recyclerView.adapter=
+            DataAdapter(dataList, this)
         recyclerView.layoutManager= LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL,false)
 
@@ -61,6 +72,45 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         })
     }
 
+    fun showDialogBox(){
+
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.custom_company_sort_dialog_box)
+        dialog.setTitle("This is my custom dialog box")
+        dialog.setCancelable(true)
+        // there are a lot of settings, for dialog, check them all out!
+        // set up radiobutton
+        val rg = dialog.findViewById(R.id.radio_sort) as RadioGroup
+        val rd1 = dialog.findViewById(R.id.radio_name_asc) as RadioButton
+        val rd2 = dialog.findViewById(R.id.radio_name_desc) as RadioButton
+        val btn_ok = dialog.findViewById(R.id.btn_okay) as Button
+
+        btn_ok.setOnClickListener{
+            var id: Int = rg.checkedRadioButtonId
+            when(id){
+                R.id.radio_name_asc ->{
+                    recyclerView.adapter= DataAdapter(
+                        dataList.sortedBy { it.company },
+                        this
+                    )
+                    recyclerView.adapter?.notifyDataSetChanged()
+                    }
+                R.id.radio_name_desc ->
+                    {dataList.sortedWith(compareByDescending { it.company })
+                        recyclerView.adapter=
+                            DataAdapter(
+                                dataList.sortedByDescending { it.company },
+                                this
+                            )
+                        recyclerView.adapter?.notifyDataSetChanged()
+                    }
+            }
+            dialog.cancel()
+        }
+
+        dialog.show()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menuitems, menu)
         val menuItem = menu.findItem(R.id.actionsearch)
@@ -84,12 +134,25 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
         }
 
-        recyclerView.adapter= DataAdapter(newDataList,this)
+        recyclerView.adapter=
+            DataAdapter(newDataList, this)
         recyclerView.adapter?.notifyDataSetChanged()
 
         return true
 
     }
 
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.btn_sort -> {
+              showDialogBox()
+            }
+            else -> {
+                // else condition
+            }
+        }
+    }
+
 }
+
 

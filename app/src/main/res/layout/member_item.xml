@@ -12,20 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
 
-            android:layout_marginRight="10dp">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/img_company_logo"
-                >
-            </ImageView>
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,18 +24,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-<!--                <TextView-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:text="Company Name:"/>-->
-
-
                 <TextView
-                    android:id="@+id/tv_company_name"
                     android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:text="Member Name:"/>
+
+
+                <TextView
+                    android:id="@+id/tv_member_name"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -60,20 +46,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-<!--                <TextView-->
-<!--                    android:id="@+id/capital"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:text="Website:"/>-->
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Age:"/>
 
 
                 <TextView
-                    android:id="@+id/tv_company_website"
+                    android:id="@+id/tv_member_age"
                     android:layout_gravity="center"
-                    android:autoLink="web"
-                    android:textColorLink="#0000ff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -85,22 +68,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-<!--                <TextView-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:text="Description :"/>-->
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Phone :"/>
 
 
                 <TextView
-                    android:id="@+id/tv_company_description"
+                    android:id="@+id/tv_member_phone"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
 
             </LinearLayout>
+
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -108,22 +92,39 @@
                 android:layout_marginTop="5dp">
 
                 <TableRow>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1.5">
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="Email :"/>
+
+
+                        <TextView
+                            android:id="@+id/tv_member_mail"
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+
+                    </LinearLayout>
+
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         style="@style/MyCustomButton"
                         android:layout_marginRight="10dp"
-
                         android:text="Favorite" />
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
-                        style="@style/MyCustomButton"
-                        android:text="Follow" />
+
 
 
                 </TableRow>
