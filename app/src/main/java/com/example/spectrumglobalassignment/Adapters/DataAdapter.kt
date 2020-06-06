@@ -1,16 +1,21 @@
 package com.example.spectrumglobalassignment.Adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spectrumglobalassignment.MembersActivity
 import com.example.spectrumglobalassignment.Model.RespnseDataItem
 import com.example.spectrumglobalassignment.R
+import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso
 import java.io.Serializable
 
@@ -29,6 +34,7 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
         return dataList.size
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dataModel=dataList.get(position)
         Picasso.get().load(dataModel.logo).into(holder.company_logo)
@@ -47,6 +53,39 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
 
         }
 
+        holder.btn_favourite.setOnClickListener{
+            if(!dataModel.isFavourite){
+                dataModel.isFavourite= true;
+                holder.btn_favourite.setIconResource(R.drawable.star_checked)
+
+            }
+            else{
+                dataModel.isFavourite= false;
+                holder.btn_favourite.setIconResource(R.drawable.star_unchecked)
+            }
+        }
+
+        holder.btn_follow.setOnClickListener{
+            if(!dataModel.isFollwed){
+                dataModel.isFollwed= true;
+
+                holder.btn_follow.setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.holo_blue_light));
+
+
+                holder.btn_follow.text= "Followed"
+
+            }
+            else{
+                dataModel.isFollwed= false;
+
+                holder.btn_follow.setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.holo_blue_dark));
+
+                holder.btn_follow.text= "follow"
+
+            }
+        }
+
+
 
     }
 
@@ -56,6 +95,8 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
         lateinit var company_website: TextView
         lateinit var company_description: TextView
         lateinit var company_logo: ImageView
+        lateinit var btn_favourite: MaterialButton
+        lateinit var btn_follow: MaterialButton
 
 
 
@@ -64,10 +105,8 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
             company_website=itemLayoutView.findViewById(R.id.tv_company_website)
             company_description=itemLayoutView.findViewById(R.id.tv_company_description)
             company_logo=itemLayoutView.findViewById(R.id.img_company_logo)
-
-
-
-
+            btn_favourite=itemLayoutView.findViewById<MaterialButton>(R.id.btn_fav)
+            btn_follow=itemLayoutView.findViewById(R.id.btn_follow)
 
         }
 

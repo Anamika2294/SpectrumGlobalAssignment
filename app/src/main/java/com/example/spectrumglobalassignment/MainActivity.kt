@@ -14,7 +14,6 @@ import androidx.core.view.MenuItemCompat
 
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
-
 import androidx.appcompat.widget.Toolbar
 import android.app.Dialog
 import android.widget.RadioButton

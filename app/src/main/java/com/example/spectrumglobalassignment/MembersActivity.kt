@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spectrumglobalassignment.Adapters.DataAdapter
 import com.example.spectrumglobalassignment.Adapters.MemberAdapter
 import com.example.spectrumglobalassignment.Model.Member
+import com.example.spectrumglobalassignment.Model.RespnseDataItem
 
 class MembersActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View.OnClickListener {
 
@@ -31,7 +32,11 @@ class MembersActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Vie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_members)
-       members= intent.getSerializableExtra("MEMBER_LIST") as List<Member>
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        btnSort = findViewById(R.id.btn_sort)
+        btnSort.setOnClickListener(this)
+        members= intent.getSerializableExtra("MEMBER_LIST") as List<Member>
         Log.v("MemberActivity",""+members);
 
         btnSort = findViewById(R.id.btn_sort)
@@ -93,12 +98,28 @@ class MembersActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Vie
 
     override fun onQueryTextSubmit(query: String?): Boolean {
        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-       return true;
+       return false;
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-       return false;
+        val newText=newText!!.toLowerCase();
+        var newDataList : MutableList<Member> = ArrayList()
+
+        for(responseItem in members){
+            val firstName=responseItem.name.first.toLowerCase()
+            val lastName=responseItem.name.last.toLowerCase()
+
+            if(firstName.contains(newText) || lastName.contains(newText)){
+                Log.v("LastName",""+lastName)
+                newDataList.add(responseItem)
+            }
+        }
+
+        recyclerView.adapter=
+            MemberAdapter(newDataList, this)
+        recyclerView.adapter?.notifyDataSetChanged()
+
+       return true;
     }
 
     override fun onClick(v: View?) {

@@ -108,21 +108,38 @@
                 android:layout_marginTop="5dp">
 
                 <TableRow>
+                   
+<!--                    <Button-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:id="@+id/btn_fav"-->
+<!--                        style="@style/MyCustomButton"-->
+<!--                        android:layout_marginRight="10dp"-->
+<!--                        android:text="Favorite" />-->
+
+
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                        style="@style/Widget.MaterialComponents.Button"-->
+<!--                        app:icon="@drawable/star_unchecked"-->
+<!--                        app:iconGravity="start"-->
+<!--                        >-->
+<!--                    </com.google.android.material.button.MaterialButton>-->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_fav"
+                        style="@style/Widget.MaterialComponents.Button.Icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Favourite"
+                        app:backgroundTint="@android:color/holo_blue_dark"
+                        app:icon="@drawable/star_unchecked"/>
+
                     <Button
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
                         android:layout_weight="1"
-                        style="@style/MyCustomButton"
-                        android:layout_marginRight="10dp"
-
-                        android:text="Favorite" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
+                        android:id="@+id/btn_follow"
                         android:layout_marginLeft="10dp"
-                        style="@style/MyCustomButton"
+                        app:backgroundTint="@android:color/holo_blue_dark"
                         android:text="Follow" />
 
 

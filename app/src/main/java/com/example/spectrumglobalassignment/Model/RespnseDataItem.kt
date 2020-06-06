@@ -6,5 +6,7 @@ data class RespnseDataItem(
     val company: String,
     val logo: String,
     val members: List<Member>,
-    val website: String
+    val website: String,
+    var isFavourite: Boolean= false,
+    var isFollwed: Boolean = false
 )
