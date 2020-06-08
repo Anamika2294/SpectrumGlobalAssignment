@@ -23,11 +23,7 @@ import java.io.Serializable
 
 
 class DataAdapter(private var dataList: List<RespnseDataItem>, private val context: Context) : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
-
-   // var onItemClick: ((DataModel) -> Unit)? = null
-
-
-
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item, parent, false))
     }
@@ -47,6 +43,22 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
         holder.company_name.text=dataModel.company;
         holder.company_website.text=dataModel.website;
         holder.company_description.text=dataModel.about;
+
+        holder.btn_favourite.setIconResource(
+            if ((context as MainActivity).readstate(dataModel._id))
+                R.drawable.star_checked
+            else
+                R.drawable.star_unchecked
+        )
+
+        if ((context as MainActivity).readFollowStaed(dataModel._id)){
+            holder.btn_follow.text= "Followed"
+        }
+        else{
+            holder.btn_follow.text= "follow"
+        }
+
+
 
         holder?.itemView?.setOnClickListener {
             val intent = Intent(holder.itemView.context, MembersActivity::class.java)
@@ -75,14 +87,12 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
         holder.btn_follow.setOnClickListener{
             if(!dataModel.isFollwed){
                 dataModel.isFollwed= true;
-                holder.btn_follow.setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.holo_blue_light));
                 holder.btn_follow.text= "Followed"
                 (context as MainActivity).saveFollowStaed(dataModel._id,true)
 
             }
             else{
                 dataModel.isFollwed= false;
-                holder.btn_follow.setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.holo_blue_dark));
                 holder.btn_follow.text= "follow"
                 (context as MainActivity).saveFollowStaed(dataModel._id,false)
             }

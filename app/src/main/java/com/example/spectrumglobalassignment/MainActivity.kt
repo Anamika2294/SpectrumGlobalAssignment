@@ -161,6 +161,10 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.On
         aSharedPreferencesEdit.putBoolean(id, isFavourite)
         aSharedPreferencesEdit.apply()
     }
+    fun readstate(id:String): Boolean {
+        val asharedPreferences = this.getSharedPreferences("Favourite", Context.MODE_PRIVATE)
+        return asharedPreferences.getBoolean(id, false)
+    }
 
 
 
@@ -169,6 +173,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.On
         val aSharedPreferencesEdit = aSharedPreferences.edit()
         aSharedPreferencesEdit.putBoolean(id, isFollow)
         aSharedPreferencesEdit.apply()
+    }
+
+    fun readFollowStaed(id:String): Boolean {
+        val asharedPreferences = this.getSharedPreferences("Follow", Context.MODE_PRIVATE)
+        return asharedPreferences.getBoolean(id, false)
     }
 
 
