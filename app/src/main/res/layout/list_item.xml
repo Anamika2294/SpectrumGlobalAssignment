@@ -131,7 +131,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Favourite"
-                        app:backgroundTint="@android:color/holo_blue_dark"
                         app:icon="@drawable/star_unchecked"/>
 
                     <Button
@@ -139,7 +138,6 @@
                         android:layout_weight="1"
                         android:id="@+id/btn_follow"
                         android:layout_marginLeft="10dp"
-                        app:backgroundTint="@android:color/holo_blue_dark"
                         android:text="Follow" />
 
 

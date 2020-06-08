@@ -22,6 +22,14 @@ import android.widget.Button
 import android.widget.RadioGroup
 import com.example.spectrumglobalassignment.Adapters.DataAdapter
 import kotlin.collections.ArrayList
+import android.app.ProgressDialog
+import android.content.Context
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.OnClickListener {
@@ -52,12 +60,17 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.On
 
     }
     private fun getData() {
+        val mProgressDialog = ProgressDialog(this)
+        mProgressDialog.isIndeterminate = true
+        mProgressDialog.setMessage("Loading...")
+        mProgressDialog.show()
 
         val call: Call<List<RespnseDataItem>> = ApiClient.getClient.getData()
         call.enqueue(object : Callback<List<RespnseDataItem>> {
 
             override fun onResponse(call: Call<List<RespnseDataItem>>?, response: Response<List<RespnseDataItem>>?) {
-                //progerssProgressDialog.dismiss()
+                mProgressDialog.dismiss();
+
                 Log.v("Data",""+response!!.body()!!.get(0)._id);
                 dataList.addAll(response!!.body()!!)
                 recyclerView.adapter?.notifyDataSetChanged()
@@ -65,7 +78,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.On
             }
 
             override fun onFailure(call: Call<List<RespnseDataItem>>?, t: Throwable?) {
-                // progerssProgressDialog.dismiss()
+                mProgressDialog.dismiss();
             }
 
         })
@@ -77,31 +90,20 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.On
         dialog.setContentView(R.layout.custom_company_sort_dialog_box)
         dialog.setTitle("This is my custom dialog box")
         dialog.setCancelable(true)
-        // there are a lot of settings, for dialog, check them all out!
-        // set up radiobutton
+
         val rg = dialog.findViewById(R.id.radio_sort) as RadioGroup
-        val rd1 = dialog.findViewById(R.id.radio_name_asc) as RadioButton
-        val rd2 = dialog.findViewById(R.id.radio_name_desc) as RadioButton
         val btn_ok = dialog.findViewById(R.id.btn_okay) as Button
 
         btn_ok.setOnClickListener{
             var id: Int = rg.checkedRadioButtonId
             when(id){
                 R.id.radio_name_asc ->{
-                    recyclerView.adapter= DataAdapter(
-                        dataList.sortedBy { it.company },
-                        this
-                    )
                     recyclerView.adapter?.notifyDataSetChanged()
-                    }
-                R.id.radio_name_desc ->
-                    {dataList.sortedWith(compareByDescending { it.company })
-                        recyclerView.adapter=
-                            DataAdapter(
-                                dataList.sortedByDescending { it.company },
-                                this
-                            )
-                        recyclerView.adapter?.notifyDataSetChanged()
+                    updateAdapter(dataList.sortedBy{ it.company })
+
+                }
+                R.id.radio_name_desc -> {
+                        updateAdapter(dataList.sortedByDescending { it.company })
                     }
             }
             dialog.cancel()
@@ -132,11 +134,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.On
                 newDataList.add(responseItem)
             }
         }
-
-        recyclerView.adapter=
-            DataAdapter(newDataList, this)
-        recyclerView.adapter?.notifyDataSetChanged()
-
+        updateAdapter(newDataList)
         return true
 
     }
@@ -146,11 +144,33 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,View.On
             R.id.btn_sort -> {
               showDialogBox()
             }
-            else -> {
-                // else condition
-            }
+
         }
     }
+
+    fun updateAdapter(dataList: List<RespnseDataItem>){
+        recyclerView.adapter=
+            DataAdapter(dataList, this)
+        recyclerView.adapter?.notifyDataSetChanged()
+
+    }
+
+    fun savestate(id:String,isFavourite: Boolean) {
+        val aSharedPreferences = this.getSharedPreferences("Favourite", Context.MODE_PRIVATE)
+        val aSharedPreferencesEdit = aSharedPreferences.edit()
+        aSharedPreferencesEdit.putBoolean(id, isFavourite)
+        aSharedPreferencesEdit.apply()
+    }
+
+
+
+    fun saveFollowStaed(id:String,isFollow: Boolean) {
+        val aSharedPreferences = this.getSharedPreferences("Follow", Context.MODE_PRIVATE)
+        val aSharedPreferencesEdit = aSharedPreferences.edit()
+        aSharedPreferencesEdit.putBoolean(id, isFollow)
+        aSharedPreferencesEdit.apply()
+    }
+
 
 }
 

@@ -12,12 +12,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.spectrumglobalassignment.MainActivity
 import com.example.spectrumglobalassignment.MembersActivity
 import com.example.spectrumglobalassignment.Model.RespnseDataItem
 import com.example.spectrumglobalassignment.R
 import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso
 import java.io.Serializable
+
+
 
 class DataAdapter(private var dataList: List<RespnseDataItem>, private val context: Context) : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
@@ -57,31 +60,31 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
             if(!dataModel.isFavourite){
                 dataModel.isFavourite= true;
                 holder.btn_favourite.setIconResource(R.drawable.star_checked)
+                (context as MainActivity).savestate(dataModel._id,true)
+
 
             }
             else{
                 dataModel.isFavourite= false;
                 holder.btn_favourite.setIconResource(R.drawable.star_unchecked)
+                (context as MainActivity).savestate(dataModel._id,false)
+
             }
         }
 
         holder.btn_follow.setOnClickListener{
             if(!dataModel.isFollwed){
                 dataModel.isFollwed= true;
-
                 holder.btn_follow.setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.holo_blue_light));
-
-
                 holder.btn_follow.text= "Followed"
+                (context as MainActivity).saveFollowStaed(dataModel._id,true)
 
             }
             else{
                 dataModel.isFollwed= false;
-
                 holder.btn_follow.setBackgroundTintList(ContextCompat.getColorStateList(context, android.R.color.holo_blue_dark));
-
                 holder.btn_follow.text= "follow"
-
+                (context as MainActivity).saveFollowStaed(dataModel._id,false)
             }
         }
 
@@ -91,12 +94,12 @@ class DataAdapter(private var dataList: List<RespnseDataItem>, private val conte
 
 
     inner class ViewHolder(itemLayoutView: View) : RecyclerView.ViewHolder(itemLayoutView) {
-        lateinit var company_name:TextView
-        lateinit var company_website: TextView
-        lateinit var company_description: TextView
-        lateinit var company_logo: ImageView
-        lateinit var btn_favourite: MaterialButton
-        lateinit var btn_follow: MaterialButton
+         var company_name:TextView
+         var company_website: TextView
+         var company_description: TextView
+         var company_logo: ImageView
+         var btn_favourite: MaterialButton
+         var btn_follow: MaterialButton
 
 
 

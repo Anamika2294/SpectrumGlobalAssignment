@@ -8,5 +8,6 @@ data class Member(
     val age: Int,
     val email: String,
     val name: Name,
-    val phone: String
+    val phone: String,
+    var isFavourite: Boolean = false
 ):Serializable

@@ -94,10 +94,10 @@
                 <TableRow>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_weight="1.5">
+                        android:layout_weight="1.1">
 
                         <TextView
                             android:layout_gravity="center"
@@ -116,13 +116,20 @@
 
                     </LinearLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_weight="0.5"
-                        style="@style/MyCustomButton"
-                        android:layout_marginRight="10dp"
-                        android:text="Favorite" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.9">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_fav"
+                            style="@style/Widget.MaterialComponents.Button.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Favourite"
+                            app:icon="@drawable/star_unchecked"/>
+                    </LinearLayout>
+
 
 
 

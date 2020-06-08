@@ -1,6 +1,7 @@
 package com.example.spectrumglobalassignment
 
 import android.app.Dialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,14 @@ import com.example.spectrumglobalassignment.Adapters.DataAdapter
 import com.example.spectrumglobalassignment.Adapters.MemberAdapter
 import com.example.spectrumglobalassignment.Model.Member
 import com.example.spectrumglobalassignment.Model.RespnseDataItem
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.provider.MediaStore
+
 
 class MembersActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View.OnClickListener {
 
@@ -49,43 +58,64 @@ class MembersActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Vie
 
     }
 
-//    fun showDialogBox(){
-//
-//        val dialog = Dialog(this)
-//        dialog.setContentView(R.layout.custom_company_sort_dialog_box)
-//        dialog.setTitle("This is my custom dialog box")
-//        dialog.setCancelable(true)
-//        // there are a lot of settings, for dialog, check them all out!
-//        // set up radiobutton
-//        val rg = dialog.findViewById(R.id.radio_sort) as RadioGroup
-//        val rd1 = dialog.findViewById(R.id.radio_name_asc) as RadioButton
-//        val rd2 = dialog.findViewById(R.id.radio_name_desc) as RadioButton
-//        val btn_ok = dialog.findViewById(R.id.btn_okay) as Button
-//
-//        btn_ok.setOnClickListener{
-//            var id: Int = rg.checkedRadioButtonId
-//            when(id){
-//                R.id.radio_name_asc ->{
-//                    recyclerView.adapter= DataAdapter(
-//                        dataList.sortedBy { it.company },
-//                        this
-//                    )
-//                    recyclerView.adapter?.notifyDataSetChanged()
-//                }
-//                R.id.radio_name_desc ->
-//                {dataList.sortedWith(compareByDescending { it.company })
-//                    recyclerView.adapter= DataAdapter(
-//                        dataList.sortedByDescending { it.company },
-//                        this
-//                    )
-//                    recyclerView.adapter?.notifyDataSetChanged()
-//                }
-//            }
-//            dialog.cancel()
-//        }
-//
-//        dialog.show()
-//    }
+    fun showDialogBox(){
+
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.custom_member_sort_dialog)
+        dialog.setTitle("This is my custom dialog box")
+        dialog.setCancelable(true)
+        // there are a lot of settings, for dialog, check them all out!
+        // set up radiobutton
+        val rg = dialog.findViewById(R.id.radio_sort) as RadioGroup
+        val rdNameAsc = dialog.findViewById(R.id.radio_name_asc) as RadioButton
+        val rdNameDec = dialog.findViewById(R.id.radio_name_desc) as RadioButton
+        val rdAgeAsc = dialog.findViewById(R.id.radio_age_asc) as RadioButton
+        val rdAgeDec = dialog.findViewById(R.id.radio_age_desc) as RadioButton
+        val btn_ok = dialog.findViewById(R.id.btn_okay) as Button
+
+        btn_ok.setOnClickListener{
+            var id: Int = rg.checkedRadioButtonId
+            when(id){
+                R.id.radio_name_asc ->{
+                    recyclerView.adapter= MemberAdapter(
+                        members.sortedBy { it.name.first },
+                        this
+                    )
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+                R.id.radio_name_desc ->
+                {
+                    //members.sortedWith(compareByDescending { it.name.first})
+                    recyclerView.adapter= MemberAdapter(
+                        members.sortedByDescending { it.name.first },
+                        this
+                    )
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+                R.id.radio_age_asc ->
+                {
+                    //members.sortedWith(compareByDescending { it.name.first})
+                    recyclerView.adapter= MemberAdapter(
+                        members.sortedBy { it.age },
+                        this
+                    )
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+                R.id.radio_age_desc ->
+                {
+                    //members.sortedWith(compareByDescending { it.name.first})
+                    recyclerView.adapter= MemberAdapter(
+                        members.sortedByDescending { it.age },
+                        this
+                    )
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+            }
+            dialog.cancel()
+        }
+
+        dialog.show()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menuitems, menu)
@@ -97,7 +127,6 @@ class MembersActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Vie
 
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-       // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
        return false;
     }
 
@@ -123,7 +152,29 @@ class MembersActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Vie
     }
 
     override fun onClick(v: View?) {
-       // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showDialogBox()
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        recyclerView.adapter=
+            MemberAdapter(members, this)
+        recyclerView.layoutManager= LinearLayoutManager(this,
+            LinearLayoutManager.VERTICAL,false)
+
+        recyclerView.adapter?.notifyDataSetChanged()
+
+
+
+    }
+
+     fun savestate(id:String,isFavourite: Boolean) {
+        val aSharedPreferences = this.getSharedPreferences("Favourite", Context.MODE_PRIVATE)
+        val aSharedPreferencesEdit = aSharedPreferences.edit()
+        aSharedPreferencesEdit.putBoolean(id, isFavourite)
+        aSharedPreferencesEdit.apply()
+    }
+
 
 }
