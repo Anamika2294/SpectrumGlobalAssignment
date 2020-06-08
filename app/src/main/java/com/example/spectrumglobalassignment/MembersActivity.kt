@@ -176,5 +176,19 @@ class MembersActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Vie
         aSharedPreferencesEdit.apply()
     }
 
+    fun readstate(id:String): Boolean {
+        val asharedPreferences = this.getSharedPreferences("Favourite", Context.MODE_PRIVATE)
+        return asharedPreferences.getBoolean(id, false)
+    }
+
+    fun updateAdapter(dataList: List<Member>){
+        recyclerView.adapter=
+            MemberAdapter(dataList, this)
+        //recyclerView.adapter?.notifyDataSetChanged()
+
+    }
+
+
+
 
 }

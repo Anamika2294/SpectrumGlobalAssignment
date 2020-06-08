@@ -2,6 +2,7 @@ package com.example.spectrumglobalassignment.Adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,24 +33,35 @@ class MemberAdapter(private var dataList: List<Member>, private val context: Con
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        Log.v("Call","Call")
         val dataModel=dataList.get(position)
         holder.member_name.text=dataModel.name.first+" "+dataModel.name.last ;
         holder.member_age.text= dataModel.age.toString();
         holder.member_phone.text=dataModel.phone;
+        holder.member_email.text=dataModel.email;
+
+
+
+        holder.btn_favourite.setIconResource(
+            if ((context as MembersActivity).readstate(dataModel._id))
+                R.drawable.star_checked
+            else
+                R.drawable.star_unchecked
+        )
+
 
         holder.btn_favourite.setOnClickListener{
-            if(!dataModel.isFavourite){
-                dataModel.isFavourite= true;
+
+            if(!(context as MembersActivity).readstate(dataModel._id)){
                 holder.btn_favourite.setIconResource(R.drawable.star_checked)
                 (context as MembersActivity).savestate(dataModel._id,true)
 
 
             }
             else{
-                dataModel.isFavourite= false;
                 holder.btn_favourite.setIconResource(R.drawable.star_unchecked)
                 (context as MembersActivity).savestate(dataModel._id,false)
-
             }
         }
 
